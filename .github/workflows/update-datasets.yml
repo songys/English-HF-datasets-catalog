@@ -1,0 +1,49 @@
+name: Update English Datasets
+
+on:
+  # 매주 월요일 오전 9시 (KST 기준)에 실행
+  schedule:
+    - cron: '0 0 * * 1'  # UTC 기준 일요일 자정 = KST 월요일 오전 9시
+
+  # 수동 실행 가능
+  workflow_dispatch:
+
+jobs:
+  update-datasets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface-hub pandas tqdm
+
+      - name: Collect English datasets
+        run: |
+          python scripts/collect_english_datasets.py
+
+      - name: Generate trend analysis
+        run: |
+          python scripts/generate_trends.py
+
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/data/*.json docs/data/*.csv docs/data/archive/*
+
+          # 변경사항이 있는지 확인
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Weekly update: English datasets - $(date +'%Y-%m-%d %H:%M')"
+            git push
+          fi

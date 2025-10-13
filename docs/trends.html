@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Analysis - English HF Datasets</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .trend-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .growth-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .growth-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .growth-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .growth-card p {
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 1rem 0;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Trend Analysis</h1>
+            <p class="subtitle">Growth Trends of English Language Datasets</p>
+            <p class="subtitle-small">Tracking the Evolution of English HuggingFace Datasets</p>
+        </div>
+    </header>
+
+    <main class="trend-container">
+        <div style="text-align: center; margin: 1rem 0;">
+            <a href="index.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">
+                ← Back to Main Page
+            </a>
+        </div>
+
+        <div id="loading" class="loading">Loading data...</div>
+
+        <div id="trend-content" style="display: none;">
+            <section class="growth-stats">
+                <div class="growth-card">
+                    <h3 id="growth-rate">-</h3>
+                    <p>Overall Growth Rate</p>
+                </div>
+                <div class="growth-card">
+                    <h3 id="total-weeks">-</h3>
+                    <p>Weeks Tracked</p>
+                </div>
+                <div class="growth-card">
+                    <h3 id="date-range">-</h3>
+                    <p>Date Range</p>
+                </div>
+            </section>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Number of Datasets Over Time</h2>
+                <canvas id="datasetsChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Total Downloads Over Time</h2>
+                <canvas id="downloadsChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Total Likes Over Time</h2>
+                <canvas id="likesChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Multilingual Dataset Ratio</h2>
+                <canvas id="multilingualChart"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="index.html">Main Page</a> |
+                <a href="https://github.com/songys/English-HF-datasets-catalog" target="_blank">GitHub</a> |
+                Data Source: <a href="https://huggingface.co/datasets" target="_blank">Hugging Face</a> |
+                <a href="https://arxiv.org/abs/2507.04329" target="_blank">arXiv:2507.04329</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/trends.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Language Data Left Behind - English HF Datasets Catalog</title>
+    <meta name="description" content="English Hugging Face Dataset Catalog - No Language Data Left Behind Project">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>No Language Data Left Behind</h1>
+            <p class="subtitle">English Hugging Face Dataset Catalog</p>
+            <p class="subtitle-small">A Comprehensive Collection of English Language Datasets</p>
+            <p class="subtitle-small">
+                <a href="https://arxiv.org/abs/2507.04329" target="_blank" style="color: white; text-decoration: underline;">
+                    arXiv:2507.04329
+                </a>
+            </p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Trend Link -->
+        <div style="text-align: center; margin: 1rem 0;">
+            <a href="trends.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">
+                View Trend Analysis
+            </a>
+        </div>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <div class="stat-card">
+                <h3 id="total-datasets">-</h3>
+                <p>Total Datasets</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="total-downloads">-</h3>
+                <p>Total Downloads</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="total-likes">-</h3>
+                <p>Total Likes</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="multilingual-count">-</h3>
+                <p>Multilingual Datasets</p>
+            </div>
+        </section>
+
+        <!-- Search and Filter -->
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search by dataset name or description...">
+            </div>
+            <div class="filters">
+                <select id="author-filter">
+                    <option value="">All Authors</option>
+                </select>
+                <select id="task-filter">
+                    <option value="">All Tasks</option>
+                </select>
+                <select id="sort-select">
+                    <option value="likes">Most Liked</option>
+                    <option value="downloads">Most Downloaded</option>
+                    <option value="recent">Most Recent</option>
+                    <option value="name">Name (A-Z)</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Dataset List -->
+        <section class="datasets-section">
+            <div id="loading" class="loading">Loading datasets...</div>
+            <div id="datasets-container" class="datasets-grid"></div>
+            <div id="no-results" class="no-results" style="display: none;">
+                No datasets found.
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <section class="pagination">
+            <button id="prev-page" disabled>Previous</button>
+            <span id="page-info">1 / 1</span>
+            <button id="next-page" disabled>Next</button>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Last Updated: <span id="last-updated">-</span></p>
+            <p>
+                <a href="trends.html">Trend Analysis</a> |
+                <a href="https://github.com/songys/English-HF-datasets-catalog" target="_blank">GitHub</a> |
+                Data Source: <a href="https://huggingface.co/datasets" target="_blank">Hugging Face</a> |
+                <a href="https://arxiv.org/abs/2507.04329" target="_blank">arXiv:2507.04329</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
