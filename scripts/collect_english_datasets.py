@@ -4,6 +4,8 @@ Script to collect and organize English language datasets from Hugging Face
 """
 import json
 import os
+import sys
+import time
 from datetime import datetime
 from typing import List, Dict
 import pandas as pd
@@ -11,53 +13,71 @@ from huggingface_hub import HfApi, list_datasets
 from tqdm import tqdm
 
 
-def collect_english_datasets() -> List[Dict]:
+def collect_english_datasets(max_retries: int = 3) -> List[Dict]:
     """Collect datasets that include English language from Hugging Face."""
     api = HfApi()
     datasets = []
 
     print("Collecting English datasets...")
 
-    # Search for datasets with English language tag (en)
-    try:
-        for dataset in tqdm(list_datasets(language="en", full=True)):
-            try:
-                dataset_info = {
-                    "id": dataset.id,
-                    "author": dataset.author,
-                    "created_at": str(dataset.created_at) if dataset.created_at else None,
-                    "last_modified": str(dataset.last_modified) if dataset.last_modified else None,
-                    "downloads": dataset.downloads if hasattr(dataset, 'downloads') else 0,
-                    "likes": dataset.likes if hasattr(dataset, 'likes') else 0,
-                    "tags": list(dataset.tags) if dataset.tags else [],
-                    "description": dataset.description if hasattr(dataset, 'description') else "",
-                    "url": f"https://huggingface.co/datasets/{dataset.id}",
-                    "languages": [],
-                    "tasks": [],
-                    "size_categories": []
-                }
+    # Search for datasets with English language tag (en) - with retry logic
+    for attempt in range(max_retries):
+        try:
+            print(f"Attempt {attempt + 1}/{max_retries}...")
+            dataset_list = list(list_datasets(language="en", full=True))
+            print(f"Found {len(dataset_list)} datasets in total")
 
-                # Extract language, task, and size information from tags
-                if dataset.tags:
-                    for tag in dataset.tags:
-                        if tag.startswith("language:"):
-                            dataset_info["languages"].append(tag.replace("language:", ""))
-                        elif tag.startswith("task_categories:"):
-                            dataset_info["tasks"].append(tag.replace("task_categories:", ""))
-                        elif tag.startswith("size_categories:"):
-                            dataset_info["size_categories"].append(tag.replace("size_categories:", ""))
+            for dataset in tqdm(dataset_list):
+                try:
+                    dataset_info = {
+                        "id": dataset.id,
+                        "author": dataset.author,
+                        "created_at": str(dataset.created_at) if dataset.created_at else None,
+                        "last_modified": str(dataset.last_modified) if dataset.last_modified else None,
+                        "downloads": dataset.downloads if hasattr(dataset, 'downloads') else 0,
+                        "likes": dataset.likes if hasattr(dataset, 'likes') else 0,
+                        "tags": list(dataset.tags) if dataset.tags else [],
+                        "description": dataset.description if hasattr(dataset, 'description') else "",
+                        "url": f"https://huggingface.co/datasets/{dataset.id}",
+                        "languages": [],
+                        "tasks": [],
+                        "size_categories": []
+                    }
 
-                # Filter: Include English datasets with up to 100 languages
-                if "en" in dataset_info["languages"]:
-                    # English + max 100 languages
-                    if len(dataset_info["languages"]) <= 100:
-                        datasets.append(dataset_info)
-            except Exception as e:
-                print(f"Error processing dataset {dataset.id}: {e}")
-                continue
+                    # Extract language, task, and size information from tags
+                    if dataset.tags:
+                        for tag in dataset.tags:
+                            if tag.startswith("language:"):
+                                dataset_info["languages"].append(tag.replace("language:", ""))
+                            elif tag.startswith("task_categories:"):
+                                dataset_info["tasks"].append(tag.replace("task_categories:", ""))
+                            elif tag.startswith("size_categories:"):
+                                dataset_info["size_categories"].append(tag.replace("size_categories:", ""))
 
-    except Exception as e:
-        print(f"Error fetching dataset list: {e}")
+                    # Filter: Include English datasets with up to 100 languages
+                    if "en" in dataset_info["languages"]:
+                        # English + max 100 languages
+                        if len(dataset_info["languages"]) <= 100:
+                            datasets.append(dataset_info)
+                except Exception as e:
+                    print(f"Error processing dataset {dataset.id}: {e}")
+                    continue
+
+            # Successfully completed, break out of retry loop
+            break
+
+        except Exception as e:
+            print(f"Error fetching dataset list (attempt {attempt + 1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                wait_time = 2 ** attempt  # Exponential backoff: 1s, 2s, 4s
+                print(f"Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                print("Maximum retries exceeded. Collection failed.")
+                print(f"Error type: {type(e).__name__}")
+                print(f"Error message: {str(e)}")
+                # Return empty list instead of raising error to preserve existing data
+                return []
 
     return datasets
 
@@ -149,8 +169,10 @@ def main():
     datasets = collect_english_datasets()
 
     if not datasets:
-        print("No datasets collected.")
-        return
+        print("Warning: No datasets collected.")
+        print("This might be due to API connection issues or temporary errors.")
+        print("Existing data will be preserved.")
+        sys.exit(0)  # Exit successfully to preserve existing data
 
     # Save data
     output_file = process_and_save_datasets(datasets)

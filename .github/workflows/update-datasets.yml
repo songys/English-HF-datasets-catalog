@@ -1,12 +1,16 @@
 name: Update English Datasets
 
 on:
-  # 매주 월요일 오전 9시 (KST 기준)에 실행
+  # Run every Monday at 9 AM KST
   schedule:
-    - cron: '0 0 * * 1'  # UTC 기준 일요일 자정 = KST 월요일 오전 9시
+    - cron: '0 0 * * 1'  # Sunday midnight UTC = Monday 9 AM KST
 
-  # 수동 실행 가능
+  # Enable manual execution
   workflow_dispatch:
+
+# Add permissions for the workflow to write to the repository
+permissions:
+  contents: write
 
 jobs:
   update-datasets:
@@ -17,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -25,25 +29,158 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install huggingface-hub pandas tqdm
+          echo "✓ Dependencies installed"
+          echo "Python version: $(python --version)"
+          echo "pip list:"
+          pip list | grep -E "(huggingface|pandas|tqdm)"
+
+      - name: Verify directory structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Directory structure:"
+          ls -la
+          echo "Scripts directory:"
+          ls -la scripts/
+          echo "Docs/data directory:"
+          mkdir -p docs/data/archive
+          ls -la docs/data/
 
       - name: Collect English datasets
+        env:
+          PYTHONUNBUFFERED: "1"
+        timeout-minutes: 10
         run: |
-          python scripts/collect_english_datasets.py
+          echo "Starting dataset collection..."
+          echo "Timestamp: $(date)"
+          python scripts/collect_english_datasets.py || {
+            EXIT_CODE=$?
+            echo "Error: Dataset collection failed with exit code $EXIT_CODE"
+            echo "Timestamp: $(date)"
+            exit $EXIT_CODE
+          }
+          echo "✓ Dataset collection completed"
+          echo "Timestamp: $(date)"
 
       - name: Generate trend analysis
+        env:
+          PYTHONUNBUFFERED: "1"
+        timeout-minutes: 5
         run: |
-          python scripts/generate_trends.py
+          echo "Starting trend analysis..."
+          echo "Timestamp: $(date)"
+          python scripts/generate_trends.py || {
+            EXIT_CODE=$?
+            echo "Error: Trend analysis failed with exit code $EXIT_CODE"
+            echo "Timestamp: $(date)"
+            exit $EXIT_CODE
+          }
+          echo "✓ Trend analysis completed"
+          echo "Timestamp: $(date)"
+
+      - name: Generate weekly changelog
+        env:
+          PYTHONUNBUFFERED: "1"
+        timeout-minutes: 5
+        run: |
+          echo "Starting changelog generation..."
+          echo "Timestamp: $(date)"
+          python scripts/generate_changelog.py || {
+            EXIT_CODE=$?
+            echo "Error: Changelog generation failed with exit code $EXIT_CODE"
+            echo "Timestamp: $(date)"
+            exit $EXIT_CODE
+          }
+          echo "✓ Changelog generation completed"
+          echo "Timestamp: $(date)"
+
+      - name: Get statistics for summary
+        id: stats
+        run: |
+          if [ -f "docs/data/statistics.json" ]; then
+            TOTAL_DATASETS=$(jq -r '.statistics.total_datasets' docs/data/statistics.json)
+            TOTAL_DOWNLOADS=$(jq -r '.statistics.total_downloads' docs/data/statistics.json)
+            TOTAL_LIKES=$(jq -r '.statistics.total_likes' docs/data/statistics.json)
+            MULTILINGUAL=$(jq -r '.statistics.multilingual_count' docs/data/statistics.json)
+            echo "total_datasets=$TOTAL_DATASETS" >> $GITHUB_OUTPUT
+            echo "total_downloads=$TOTAL_DOWNLOADS" >> $GITHUB_OUTPUT
+            echo "total_likes=$TOTAL_LIKES" >> $GITHUB_OUTPUT
+            echo "multilingual=$MULTILINGUAL" >> $GITHUB_OUTPUT
+          fi
+
+          if [ -f "docs/data/trends.json" ]; then
+            GROWTH_RATE=$(jq -r '.trends.growth_rate' docs/data/trends.json)
+            TOTAL_WEEKS=$(jq -r '.trends.total_weeks' docs/data/trends.json)
+            FIRST_DATE=$(jq -r '.trends.first_date' docs/data/trends.json)
+            LAST_DATE=$(jq -r '.trends.last_date' docs/data/trends.json)
+            echo "growth_rate=$GROWTH_RATE" >> $GITHUB_OUTPUT
+            echo "total_weeks=$TOTAL_WEEKS" >> $GITHUB_OUTPUT
+            echo "first_date=$FIRST_DATE" >> $GITHUB_OUTPUT
+            echo "last_date=$LAST_DATE" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git status
+          echo "Files that changed:"
+          git diff --name-only
+          if git diff --quiet docs/data/; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in data files"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in data files"
+          fi
 
       - name: Commit and push if changes
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add docs/data/*.json docs/data/*.csv docs/data/archive/*
+        id: commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Weekly update: English datasets (Total: ${{ steps.stats.outputs.total_datasets }} datasets, ${{ steps.stats.outputs.total_downloads }} downloads)"
+          file_pattern: "docs/data/*.json docs/data/*.csv docs/data/archive/*"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          skip_dirty_check: false
+          skip_fetch: false
+          add_options: '-A'
 
-          # 변경사항이 있는지 확인
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
+      - name: Create workflow summary
+        if: always()
+        run: |
+          echo "# 📊 English Datasets Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Execution Time:** $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f "docs/data/statistics.json" ]; then
+            echo "## 📈 Current Statistics" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- 🗂️ **Total Datasets:** ${{ steps.stats.outputs.total_datasets }}" >> $GITHUB_STEP_SUMMARY
+            echo "- 📥 **Total Downloads:** $(printf "%'d" ${{ steps.stats.outputs.total_downloads }})" >> $GITHUB_STEP_SUMMARY
+            echo "- ❤️ **Total Likes:** $(printf "%'d" ${{ steps.stats.outputs.total_likes }})" >> $GITHUB_STEP_SUMMARY
+            echo "- 🌍 **Multilingual Datasets:** ${{ steps.stats.outputs.multilingual }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ -f "docs/data/trends.json" ]; then
+            echo "## 📊 Trend Information" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- 📈 **Growth Rate:** ${{ steps.stats.outputs.growth_rate }}%" >> $GITHUB_STEP_SUMMARY
+            echo "- 📅 **Weeks Tracked:** ${{ steps.stats.outputs.total_weeks }}" >> $GITHUB_STEP_SUMMARY
+            echo "- 🗓️ **Date Range:** ${{ steps.stats.outputs.first_date }} ~ ${{ steps.stats.outputs.last_date }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "## 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌐 [View Trends Page](https://songys.github.io/English-HF-datasets-catalog/trends.html)" >> $GITHUB_STEP_SUMMARY
+          echo "- 📋 [View Main Page](https://songys.github.io/English-HF-datasets-catalog/)" >> $GITHUB_STEP_SUMMARY
+          echo "- 📁 [GitHub Repository](https://github.com/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+            echo "✅ **Status:** Data updated and committed successfully" >> $GITHUB_STEP_SUMMARY
           else
-            git commit -m "🤖 Weekly update: English datasets - $(date +'%Y-%m-%d %H:%M')"
-            git push
+            echo "ℹ️ **Status:** No changes detected in dataset" >> $GITHUB_STEP_SUMMARY
           fi
