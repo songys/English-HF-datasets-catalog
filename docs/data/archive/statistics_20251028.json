@@ -1,0 +1,33 @@
+{
+  "last_updated": "2025-10-28T23:15:17.681900",
+  "statistics": {
+    "total_datasets": 34939,
+    "total_downloads": 18754704,
+    "total_likes": 178258,
+    "top_authors": {
+      "Lots-of-LoRAs": 1173,
+      "aisi-whitebox": 900,
+      "neoneye": 589,
+      "HHS-Official": 385,
+      "electricsheepafrica": 376,
+      "huggingartists": 235,
+      "allenai": 132,
+      "DBQ": 129,
+      "bigbio": 127,
+      "PsyMatrix": 124
+    },
+    "top_tasks": {
+      "text-generation": 7293,
+      "question-answering": 4668,
+      "text-classification": 4374,
+      "image-to-text": 1497,
+      "text-to-image": 1385,
+      "image-classification": 1341,
+      "translation": 1187,
+      "summarization": 1184,
+      "feature-extraction": 930,
+      "visual-question-answering": 804
+    },
+    "multilingual_count": 5243
+  }
+}
