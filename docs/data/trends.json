@@ -1,64 +1,54 @@
 {
-  "generated_at": "2025-10-28T23:15:33.500851",
+  "generated_at": "2025-12-27T08:09:30.902273",
   "trends": {
     "dates": [
-      "20251012",
-      "20251013",
-      "20251028"
+      "20251227"
     ],
     "total_datasets": [
-      1326,
-      33845,
-      34939
+      39398
     ],
     "total_downloads": [
-      890871,
-      20028116,
-      18754704
+      34846720
     ],
     "total_likes": [
-      10761,
-      175311,
-      178258
+      192068
     ],
     "multilingual_count": [
-      585,
-      5108,
-      5243
+      6266
     ],
-    "growth_rate": 2534.92,
+    "growth_rate": 0,
     "latest_stats": {
-      "total_datasets": 34939,
-      "total_downloads": 18754704,
-      "total_likes": 178258,
+      "total_datasets": 39398,
+      "total_downloads": 34846720,
+      "total_likes": 192068,
       "top_authors": {
         "Lots-of-LoRAs": 1173,
         "aisi-whitebox": 900,
         "neoneye": 589,
+        "electricsheepafrica": 457,
+        "RoboCOIN": 398,
         "HHS-Official": 385,
-        "electricsheepafrica": 376,
         "huggingartists": 235,
-        "allenai": 132,
-        "DBQ": 129,
-        "bigbio": 127,
-        "PsyMatrix": 124
+        "fionela": 165,
+        "agentlans": 159,
+        "allenai": 154
       },
       "top_tasks": {
-        "text-generation": 7293,
-        "question-answering": 4668,
-        "text-classification": 4374,
-        "image-to-text": 1497,
-        "text-to-image": 1385,
-        "image-classification": 1341,
-        "translation": 1187,
-        "summarization": 1184,
-        "feature-extraction": 930,
-        "visual-question-answering": 804
+        "text-generation": 8507,
+        "question-answering": 5234,
+        "text-classification": 4872,
+        "image-to-text": 1602,
+        "image-classification": 1524,
+        "text-to-image": 1450,
+        "translation": 1298,
+        "summarization": 1271,
+        "feature-extraction": 1108,
+        "visual-question-answering": 953
       },
-      "multilingual_count": 5243
+      "multilingual_count": 6266
     },
-    "first_date": "20251012",
-    "last_date": "20251028",
-    "total_weeks": 3
+    "first_date": "20251227",
+    "last_date": "20251227",
+    "total_weeks": 1
   }
 }
