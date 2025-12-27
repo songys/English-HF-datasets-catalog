@@ -132,12 +132,21 @@ jobs:
             echo "Changes detected in data files"
           fi
 
+      - name: Add archive files if they exist
+        run: |
+          if ls docs/data/archive/* 1> /dev/null 2>&1; then
+            echo "Archive files found, adding them to git"
+            git add docs/data/archive/*
+          else
+            echo "No archive files found, skipping archive addition"
+          fi
+
       - name: Commit and push if changes
         id: commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "🤖 Weekly update: English datasets (Total: ${{ steps.stats.outputs.total_datasets }} datasets, ${{ steps.stats.outputs.total_downloads }} downloads)"
-          file_pattern: "docs/data/*.json docs/data/*.csv docs/data/archive/*"
+          file_pattern: "docs/data/*.json docs/data/*.csv"
           commit_user_name: "github-actions[bot]"
           commit_user_email: "github-actions[bot]@users.noreply.github.com"
           commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
