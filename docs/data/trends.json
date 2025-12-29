@@ -1,26 +1,46 @@
 {
-  "generated_at": "2025-12-27T08:09:30.902273",
+  "generated_at": "2025-12-29T00:59:57.723597",
   "trends": {
     "dates": [
-      "20251227"
+      "20251012",
+      "20251013",
+      "20251028",
+      "20251227",
+      "20251229"
     ],
     "total_datasets": [
-      39398
+      1326,
+      33845,
+      34939,
+      39398,
+      39518
     ],
     "total_downloads": [
-      34846720
+      890871,
+      20028116,
+      18754704,
+      34846720,
+      34381812
     ],
     "total_likes": [
-      192068
+      10761,
+      175311,
+      178258,
+      192068,
+      192527
     ],
     "multilingual_count": [
-      6266
+      585,
+      5108,
+      5243,
+      6266,
+      6279
     ],
-    "growth_rate": 0,
+    "growth_rate": 2880.24,
     "latest_stats": {
-      "total_datasets": 39398,
-      "total_downloads": 34846720,
-      "total_likes": 192068,
+      "total_datasets": 39518,
+      "total_downloads": 34381812,
+      "total_likes": 192527,
       "top_authors": {
         "Lots-of-LoRAs": 1173,
         "aisi-whitebox": 900,
@@ -30,25 +50,25 @@
         "HHS-Official": 385,
         "huggingartists": 235,
         "fionela": 165,
-        "agentlans": 159,
+        "agentlans": 160,
         "allenai": 154
       },
       "top_tasks": {
-        "text-generation": 8507,
-        "question-answering": 5234,
-        "text-classification": 4872,
-        "image-to-text": 1602,
-        "image-classification": 1524,
-        "text-to-image": 1450,
-        "translation": 1298,
-        "summarization": 1271,
-        "feature-extraction": 1108,
-        "visual-question-answering": 953
+        "text-generation": 8537,
+        "question-answering": 5256,
+        "text-classification": 4890,
+        "image-to-text": 1604,
+        "image-classification": 1530,
+        "text-to-image": 1453,
+        "translation": 1295,
+        "summarization": 1272,
+        "feature-extraction": 1115,
+        "visual-question-answering": 956
       },
-      "multilingual_count": 6266
+      "multilingual_count": 6279
     },
-    "first_date": "20251227",
-    "last_date": "20251227",
-    "total_weeks": 1
+    "first_date": "20251012",
+    "last_date": "20251229",
+    "total_weeks": 5
   }
 }
