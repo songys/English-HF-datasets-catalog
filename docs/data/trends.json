@@ -1,74 +1,79 @@
 {
-  "generated_at": "2025-12-29T00:59:57.723597",
+  "generated_at": "2026-01-05T01:01:27.928923",
   "trends": {
     "dates": [
       "20251012",
       "20251013",
       "20251028",
       "20251227",
-      "20251229"
+      "20251229",
+      "20260105"
     ],
     "total_datasets": [
       1326,
       33845,
       34939,
       39398,
-      39518
+      39518,
+      40337
     ],
     "total_downloads": [
       890871,
       20028116,
       18754704,
       34846720,
-      34381812
+      34381812,
+      32127006
     ],
     "total_likes": [
       10761,
       175311,
       178258,
       192068,
-      192527
+      192527,
+      194361
     ],
     "multilingual_count": [
       585,
       5108,
       5243,
       6266,
-      6279
+      6279,
+      6371
     ],
-    "growth_rate": 2880.24,
+    "growth_rate": 2942.01,
     "latest_stats": {
-      "total_datasets": 39518,
-      "total_downloads": 34381812,
-      "total_likes": 192527,
+      "total_datasets": 40337,
+      "total_downloads": 32127006,
+      "total_likes": 194361,
       "top_authors": {
         "Lots-of-LoRAs": 1173,
         "aisi-whitebox": 900,
         "neoneye": 589,
-        "electricsheepafrica": 457,
-        "RoboCOIN": 398,
+        "electricsheepafrica": 473,
+        "RoboCOIN": 397,
         "HHS-Official": 385,
         "huggingartists": 235,
+        "BAAI-DataCube": 207,
         "fionela": 165,
-        "agentlans": 160,
-        "allenai": 154
+        "agentlans": 160
       },
       "top_tasks": {
-        "text-generation": 8537,
-        "question-answering": 5256,
-        "text-classification": 4890,
-        "image-to-text": 1604,
-        "image-classification": 1530,
-        "text-to-image": 1453,
-        "translation": 1295,
-        "summarization": 1272,
-        "feature-extraction": 1115,
-        "visual-question-answering": 956
+        "text-generation": 8683,
+        "question-answering": 5348,
+        "text-classification": 4967,
+        "image-to-text": 1608,
+        "image-classification": 1542,
+        "text-to-image": 1465,
+        "translation": 1310,
+        "summarization": 1287,
+        "feature-extraction": 1141,
+        "visual-question-answering": 969
       },
-      "multilingual_count": 6279
+      "multilingual_count": 6371
     },
     "first_date": "20251012",
-    "last_date": "20251229",
-    "total_weeks": 5
+    "last_date": "20260105",
+    "total_weeks": 6
   }
 }
