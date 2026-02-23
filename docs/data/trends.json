@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-16T01:10:35.759414",
+  "generated_at": "2026-02-23T01:09:50.194959",
   "trends": {
     "dates": [
       "20251012",
@@ -13,7 +13,8 @@
       "20260126",
       "20260202",
       "20260209",
-      "20260216"
+      "20260216",
+      "20260223"
     ],
     "total_datasets": [
       1326,
@@ -27,7 +28,8 @@
       43012,
       43769,
       44825,
-      46267
+      46267,
+      47513
     ],
     "total_downloads": [
       890871,
@@ -41,7 +43,8 @@
       28541802,
       28686312,
       31537053,
-      33316191
+      33316191,
+      33262307
     ],
     "total_likes": [
       10761,
@@ -55,7 +58,8 @@
       201362,
       203525,
       205464,
-      207621
+      207621,
+      209390
     ],
     "multilingual_count": [
       585,
@@ -69,18 +73,19 @@
       6753,
       6905,
       7059,
-      7199
+      7199,
+      7328
     ],
-    "growth_rate": 3389.22,
+    "growth_rate": 3483.18,
     "latest_stats": {
-      "total_datasets": 46267,
-      "total_downloads": 33316191,
-      "total_likes": 207621,
+      "total_datasets": 47513,
+      "total_downloads": 33262307,
+      "total_likes": 209390,
       "top_authors": {
+        "ClarusC64": 1197,
         "Lots-of-LoRAs": 1173,
         "aisi-whitebox": 900,
-        "ClarusC64": 831,
-        "electricsheepafrica": 731,
+        "electricsheepafrica": 801,
         "BAAI-DataCube": 641,
         "neoneye": 589,
         "RoboCOIN": 432,
@@ -89,21 +94,21 @@
         "connections-dev": 225
       },
       "top_tasks": {
-        "text-generation": 10081,
-        "question-answering": 6035,
-        "text-classification": 5958,
-        "image-to-text": 1723,
-        "image-classification": 1718,
-        "text-to-image": 1538,
-        "robotics": 1490,
-        "translation": 1447,
-        "summarization": 1378,
-        "feature-extraction": 1344
+        "text-generation": 10354,
+        "text-classification": 6404,
+        "question-answering": 6160,
+        "image-to-text": 1733,
+        "image-classification": 1727,
+        "text-to-image": 1545,
+        "robotics": 1516,
+        "translation": 1467,
+        "tabular-classification": 1399,
+        "summarization": 1391
       },
-      "multilingual_count": 7199
+      "multilingual_count": 7328
     },
     "first_date": "20251012",
-    "last_date": "20260216",
-    "total_weeks": 12
+    "last_date": "20260223",
+    "total_weeks": 13
   }
 }
