@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-11T02:00:09.334497",
+  "generated_at": "2026-05-18T02:09:24.117500",
   "trends": {
     "dates": [
       "20251012",
@@ -25,7 +25,8 @@
       "20260420",
       "20260427",
       "20260504",
-      "20260511"
+      "20260511",
+      "20260518"
     ],
     "total_datasets": [
       1326,
@@ -51,7 +52,8 @@
       60129,
       62095,
       64553,
-      67145
+      67145,
+      69093
     ],
     "total_downloads": [
       890871,
@@ -77,7 +79,8 @@
       43606555,
       40957599,
       40410045,
-      46591061
+      46591061,
+      54064936
     ],
     "total_likes": [
       10761,
@@ -103,7 +106,8 @@
       226165,
       228826,
       230805,
-      232942
+      232942,
+      235206
     ],
     "multilingual_count": [
       585,
@@ -129,41 +133,42 @@
       8710,
       8976,
       9253,
-      9545
+      9545,
+      9850
     ],
-    "growth_rate": 4963.73,
+    "growth_rate": 5110.63,
     "latest_stats": {
-      "total_datasets": 67145,
-      "total_downloads": 46591061,
-      "total_likes": 232942,
+      "total_datasets": 69093,
+      "total_downloads": 54064936,
+      "total_likes": 235206,
       "top_authors": {
-        "electricsheepafrica": 5032,
+        "electricsheepafrica": 5084,
         "ClarusC64": 1566,
         "Lots-of-LoRAs": 1173,
         "aisi-whitebox": 900,
-        "beamstation": 839,
+        "electricsheepasia": 898,
+        "beamstation": 897,
         "RoboCOIN": 672,
         "BAAI-DataCube": 641,
         "neoneye": 589,
-        "electricsheepasia": 585,
         "connections-dev": 387
       },
       "top_tasks": {
-        "text-generation": 14377,
-        "text-classification": 8308,
-        "question-answering": 8218,
-        "tabular-classification": 6697,
-        "tabular-regression": 4334,
-        "other": 2340,
-        "image-classification": 2297,
-        "image-to-text": 2077,
-        "robotics": 2005,
-        "feature-extraction": 1836
+        "text-generation": 14741,
+        "text-classification": 8574,
+        "question-answering": 8416,
+        "tabular-classification": 7231,
+        "tabular-regression": 4746,
+        "other": 2377,
+        "image-classification": 2335,
+        "image-to-text": 2102,
+        "robotics": 2037,
+        "feature-extraction": 1877
       },
-      "multilingual_count": 9545
+      "multilingual_count": 9850
     },
     "first_date": "20251012",
-    "last_date": "20260511",
-    "total_weeks": 24
+    "last_date": "20260518",
+    "total_weeks": 25
   }
 }
